@@ -56,3 +56,23 @@
 * **Key Concept:** `grep` is the industry standard for searching through gigabytes of logs to find specific errors or events.
 
 ---
+## Level 8: Finding Unique Data
+* **Goal:** Find the only line in `data.txt` that occurs exactly once.
+* **The Problem:** The `uniq` command only detects duplicates if they are adjacent (next to each other).
+* **The Fix:** Sort the file first, then use the unique flag.
+* **Command:** `sort data.txt | uniq -u`
+* **Key Concept:** Pipelines (`|`). By chaining `sort` and `uniq`, we can perform complex data analysis on logs.
+
+## Level 9: Human-Readable Strings
+* **Goal:** Find a password hidden inside a binary (non-text) file.
+* **The Problem:** Using `cat` on a binary file results in terminal "garbage" and unreadable symbols.
+* **The Fix:** Use `strings` to filter out everything except printable text.
+* **Command:** `strings data.txt | grep "=="`
+* **Key Concept:** Secret Scanning. `strings` is used to find hardcoded passwords or keys hidden inside compiled programs.
+
+## Level 10: Base64 Decoding
+* **Goal:** Decode the password stored in Base64 format.
+* **The Problem:** The data is encoded (e.g., `VGhlIHBhc3N3b3Jk...`) and cannot be read directly.
+* **The Fix:** Use the system's native decoder.
+* **Command:** `base64 -d data.txt`
+* **Key Concept:** Base64 is NOT encryption; it is encoding. In DevOps, Kubernetes Secrets and Cloud-init scripts use Base64 constantly.
