@@ -1,5 +1,6 @@
 # OverTheWire: Bandit Level Walkthrough
 **Engineer:** Odoworitse
+
 **Objective:** Mastering Linux CLI, security concepts, and DevOps fundamentals.
 
 ---
@@ -76,3 +77,37 @@
 * **The Fix:** Use the system's native decoder.
 * **Command:** `base64 -d data.txt`
 * **Key Concept:** Base64 is NOT encryption; it is encoding. In DevOps, Kubernetes Secrets and Cloud-init scripts use Base64 constantly.
+
+---
+## Level 11: ROT13 Cipher
+* **Goal:** Decode a password where letters are rotated by 13 positions.
+* **The Tool:** `tr` (Translate).
+* **Command:** `cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'`
+* **Key Concept:** Substitution Ciphers. While not used for real security today, the `tr` command is essential in DevOps for "sanitizing" data (e.g., converting lowercase to uppercase or stripping special characters).
+
+## Level 12: The "Russian Doll" (Nested Compression)
+* **Goal:** Extract a password hidden under multiple layers of different compression formats.
+* **The Tools:** `xxd`, `file`, `gzip`, `bzip2`, `tar`.
+* **The Process:** 1. Reverse the hexdump: `xxd -r data.txt > data.bin`
+    2. Repeatedly check the type using `file`.
+    3. Decompress accordingly until reaching ASCII text.
+* **Key Concept:** Magic Bytes. File extensions can be changed or faked, but the `file` command reads the internal data structure to identify the true file type.
+
+## Level 13: SSH Key Authentication
+* **Goal:** Log into the next level using a private SSH key instead of a password.
+* **The Tool:** `ssh` with the `-i` flag.
+* **Command:** `ssh -i sshkey.private bandit14@localhost -p 2220`
+* **Key Concept:** Public Key Infrastructure (PKI). Using SSH keys is the industry standard for DevOps automation and server hardening.
+
+## Level 14: Interacting with Local Services
+* **Goal:** Send the current password to a service listening on port 30000.
+* **The Tool:** `nc` (Netcat).
+* **Command:** `cat /etc/bandit_pass/bandit14 | nc localhost 30000`
+* **Key Concept:** Ports and Sockets. Services often run on internal ports (localhost) to communicate between different parts of an application.
+
+## Level 15: SSL/TLS Encrypted Communication
+* **Goal:** Send the password to a secure port (30001) that requires encryption.
+* **The Tool:** `openssl s_client`.
+* **Command:** `openssl s_client -connect localhost:30001`
+* **Key Concept:** Encryption in Transit. In production, you never send sensitive data over plain text. `openssl` allows you to debug and verify secure handshakes.
+
